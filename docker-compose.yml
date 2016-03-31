@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+    behat:
+        image: qualiboo/testing-behat
+        volumes:
+            - ./behat:/var/work
+        external_links:
+            - hub
+            - phpfarm
+            - nginx
+        extra_hosts:
+            - "53.spaces.dev:192.168.99.100"
+            - "54.spaces.dev:192.168.99.100"
+            - "55.spaces.dev:192.168.99.100"
+            - "56.spaces.dev:192.168.99.100"
+            - "70.spaces.dev:192.168.99.100"
+        environment:
+            website: "http://53.spaces.dev/"
+    firefox:
+        image: qualiboo/testing-node-firefox
+        ports:
+            - "5900"
+        external_links:
+            - hub
+        environment:
+            REMOTE_HOST_PARAM: "-maxSession 3 -browser browserName=firefox,maxInstances=3"
+    chrome:
+        image: qualiboo/testing-node-chrome
+        ports:
+            - "5900"
+        external_links:
+            - hub
+    hub:
+        image: qualiboo/testing-hub
+        ports:
+            - "4444:4444"
+        external_links:
+            - phpfarm
+            - nginx
