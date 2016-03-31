@@ -6,3 +6,4 @@ Given I am on "http://53.spaces.dev/index.php"
 When I follow "go-to-other"
 Then I should be on "http://53.spaces.dev/other.php"
 And I should see "Other!"
+And I output response headers
